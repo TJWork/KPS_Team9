@@ -75,7 +75,7 @@ public class Query {
         return retList;
     }
 ;
-    public ArrayList<DiscontinueEvent> Discontinuelist() {       
+    public ArrayList<DiscontinueEvent> discontinuelist() {       
         ArrayList<DiscontinueEvent> retList = new ArrayList<DiscontinueEvent>();
         try{
          List<String[]> list = bb(Query.discontinue_event);
@@ -99,7 +99,7 @@ public class Query {
     
   
     
-    public ArrayList<UpdateTransportPriceEvent> UpdateTransportList() {       
+    public ArrayList<UpdateTransportPriceEvent> updateTransportList() {       
         ArrayList<UpdateTransportPriceEvent> retList = new ArrayList<UpdateTransportPriceEvent>();
         try{
          List<String[]> list = bb(Query.update_transport_price_event);
@@ -124,7 +124,7 @@ public class Query {
     ;
     
 
-    public ArrayList<UpdateCustomerPriceEvent> UpdateCustomerPriceEventList() {       
+    public ArrayList<UpdateCustomerPriceEvent> updateCustomerPriceEventList() {       
         ArrayList<UpdateCustomerPriceEvent> retList = new ArrayList<UpdateCustomerPriceEvent>();
         try{
          List<String[]> list = bb(Query.update_customer_price_event);
