@@ -17,6 +17,16 @@ public class UpdateTransportPriceEvent extends Event{
     private String company;
     private String company_cost_pergram;
     private String company_cost_percc;
+    private String duration;
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+    
 
     public String getEvent() {
         return event;

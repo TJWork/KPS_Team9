@@ -310,6 +310,7 @@
             <company>UPS</company>
             <company_cost_pergram>50</company_cost_pergram>
             <company_cost_percc>100</company_cost_percc>
+            <duration>1</duration>
         </price>
     </ChangeTransportPrice>
     <citys>
