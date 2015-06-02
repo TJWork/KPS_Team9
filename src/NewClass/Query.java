@@ -29,7 +29,7 @@ public class Query {
     private final static String driver = "org.exist.xmldb.DatabaseImpl";
 
     public List<String[]> bb(String query) throws Exception {
-        System.out.println("reading query: " + query);
+    
         Class cl = Class.forName(driver);
         String[] Value2 = null;
         Database database = (Database) cl.newInstance();

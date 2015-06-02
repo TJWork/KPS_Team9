@@ -32,6 +32,9 @@ public class City {
         this.country_id = country_id;
     }
 
-	
+    @Override
+    public String toString(){
+        return this.name;
+    }
 
 }
