@@ -50,18 +50,13 @@ public class Query {
         return list;
     }
 
-    public ArrayList<MailEvent> maillist() {
-        System.out.println("reading mail events");
+    public ArrayList<MailEvent> maillist() {       
         ArrayList<MailEvent> retList = new ArrayList<MailEvent>();
-        
         try{
          List<String[]> list = bb(Query.mail_event);
-        System.out.println("building mail events: size o' list: " + list.size());
         for (int h = 0; h < list.size(); h++) {
-            String[] asd = list.get(h);
-           
+            String[] asd = list.get(h);           
             MailEvent mailEvent = new MailEvent();
-
             mailEvent.setEvent(asd[0]);
             mailEvent.setEvent_time(asd[1]);
             mailEvent.setWeight(asd[2]);
@@ -72,7 +67,6 @@ public class Query {
             mailEvent.setDestination(asd[7]);
             mailEvent.setPrice(asd[8]);
             mailEvent.setCost(asd[9]);
-            //allocate
             retList.add(mailEvent);
         }
         }catch(Exception e){
@@ -80,38 +74,37 @@ public class Query {
         }
         return retList;
     }
-
-    
-    
-    public List Discontinuelist() {
-        List list = new ArrayList();
+;
+    public ArrayList<DiscontinueEvent> Discontinuelist() {       
+        ArrayList<DiscontinueEvent> retList = new ArrayList<DiscontinueEvent>();
         try{
-         list = bb(Query.discontinue_event);
-        String[] asd = (String[]) list.get(0);
-        List list2 = new ArrayList();
-        for (int h = 0; h <= list.size(); h++) {
+         List<String[]> list = bb(Query.discontinue_event);
+        for (int h = 0; h < list.size(); h++) {
+            String[] asd = list.get(h);           
             DiscontinueEvent discontinueEvent = new DiscontinueEvent();
-
             discontinueEvent.setEvent(asd[0]);
             discontinueEvent.setEvent_time(asd[1]);
             discontinueEvent.setPriority_id(asd[2]);
             discontinueEvent.setOrigin(asd[3]);
             discontinueEvent.setDestination(asd[4]);
-            discontinueEvent.setCompany(asd[5]);
-            list2.add(discontinueEvent);
+            discontinueEvent.setCompany(asd[5]);            
+            retList.add(discontinueEvent);
         }
-        } catch(Exception e){
-            
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        return list;
+        return retList;
     }
-
     ;
+    
   
-    public List UpdateTransportList(List list) {
-        String[] asd = (String[]) list.get(0);
-        List list2 = new ArrayList();
-        for (int h = 0; h <= list.size(); h++) {
+    
+    public ArrayList<UpdateTransportPriceEvent> UpdateTransportList() {       
+        ArrayList<UpdateTransportPriceEvent> retList = new ArrayList<UpdateTransportPriceEvent>();
+        try{
+         List<String[]> list = bb(Query.update_transport_price_event);
+        for (int h = 0; h < list.size(); h++) {
+            String[] asd = list.get(h);           
             UpdateTransportPriceEvent ucpe = new UpdateTransportPriceEvent();
             ucpe.setEvent(asd[0]);
             ucpe.setEvent_time(asd[1]);
@@ -120,18 +113,23 @@ public class Query {
             ucpe.setDestination(asd[4]);
             ucpe.setCompany(asd[5]);
             ucpe.setCompany_cost_pergram(asd[6]);
-            ucpe.setCompany_cost_percc(asd[7]);
-            list2.add(ucpe);
+            ucpe.setCompany_cost_percc(asd[7]);           
+            retList.add(ucpe);
         }
-        return list2;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return retList;
     }
-
     ;
     
-    public List UpdateCustomerPriceEventList(List list) {
-        String[] asd = (String[]) list.get(0);
-        List list2 = new ArrayList();
-        for (int h = 0; h <= list.size(); h++) {
+
+    public ArrayList<UpdateCustomerPriceEvent> UpdateCustomerPriceEventList() {       
+        ArrayList<UpdateCustomerPriceEvent> retList = new ArrayList<UpdateCustomerPriceEvent>();
+        try{
+         List<String[]> list = bb(Query.update_customer_price_event);
+        for (int h = 0; h < list.size(); h++) {
+            String[] asd = list.get(h);           
             UpdateCustomerPriceEvent ucpe = new UpdateCustomerPriceEvent();
             ucpe.setEvent(asd[0]);
             ucpe.setEvent_time(asd[1]);
@@ -140,12 +138,17 @@ public class Query {
             ucpe.setDestination(asd[4]);
             ucpe.setCompany(asd[5]);
             ucpe.setCustomer_cost_pergram(asd[6]);
-            ucpe.setCustomer_cost_percc(asd[7]);
-            list2.add(ucpe);
+            ucpe.setCustomer_cost_percc(asd[7]);         
+            retList.add(ucpe);
         }
-        return list2;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return retList;
     }
-;
+    ;
+    
+    
     
     public ArrayList<City> citylist() {
         ArrayList<City> retList = new ArrayList<City>();       
