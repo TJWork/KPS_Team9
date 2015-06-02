@@ -1,7 +1,9 @@
 package NewClass;
 
+import domain.City;
 import domain.DiscontinueEvent;
 import domain.MailEvent;
+import domain.TransportCompany;
 import domain.UpdateCustomerPriceEvent;
 import domain.UpdateTransportPriceEvent;
 import java.util.ArrayList;
@@ -20,6 +22,9 @@ public class Query {
     private final static String update_transport_price_event = "for $c in fn:doc('Kps_manager.xml')/Business_events/ChangeTransportPrice/price[event <= 100]\n" + "return\n" + "<a>{$c/event/text()},{$c/event_time/text()},{$c/priority_id/text()},{$c/origin/text()},{$c/destination/text()},{$c/company/text()},{$c/company_cost_pergram/text()},{$c/company_cost_percc/text()}</a>";
     private final static String discontinue_event = "for $c in fn:doc('Kps_manager.xml')/Business_events/DiscountinueRoute_events/dicontinue[event <= 100]\n" + "return\n" + "<a>{$c/event/text()},{$c/event_time/text()},{$c/priority_id/text()},{$c/origin/text()},{$c/destination/text()},{$c/company/text()},{$c/origin/text()},{$c/destination/text()}</a>";
     private final static String mail_event = "for $c in fn:doc('Kps_manager.xml')/Business_events/mail_events/mail[event <= 100]" + "return" + "<a>{$c/event/text()},{$c/event_time/text()},{$c/weight/text()},{$c/volume/text()},{$c/time/text()},{$c/priority_id/text()},{$c/origin/text()},{$c/destination/text()},{$c/price/text()},{$c/cost/text()}</a>";
+    private final static String findcity = "for $c in fn:doc('Kps_manager.xml')/Business_events/citys/city\n" +"return\n" +"<a>{$c/@id/string()},{$c/name/text()},{$c/country_id/text()}</a>";
+    private final static String findcompany = "for $c in fn:doc('Kps_manager.xml')/Business_events/companies/company\n" +"return\n" +"<a>{$c/@id/string()},{$c/name/text()}</a>";
+    
     private final static String URI = "xmldb:exist://localhost:8080/exist/xmlrpc";
     private final static String driver = "org.exist.xmldb.DatabaseImpl";
 
@@ -141,5 +146,41 @@ public class Query {
         return list2;
     }
 ;
-
+    
+    public ArrayList<City> citylist() {
+        ArrayList<City> retList = new ArrayList<City>();       
+        try{
+         List<String[]> list = bb(Query.findcity);
+        for (int h = 0; h < list.size(); h++) {
+            String[] asd = list.get(h);          
+            City city = new City();
+            city.setId(asd[0]);
+            city.setName(asd[1]);
+            city.setCountry_id(asd[2]);
+            retList.add(city);
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return retList;
+    }
+;
+    
+        public ArrayList<TransportCompany> companylist() {
+        ArrayList<TransportCompany> retList = new ArrayList<TransportCompany>();       
+        try{
+         List<String[]> list = bb(Query.findcompany);
+        for (int h = 0; h < list.size(); h++) {
+            String[] asd = list.get(h);          
+            TransportCompany transportCompany = new TransportCompany();
+            transportCompany.setId(asd[0]);
+            transportCompany.setName(asd[1]);
+            retList.add(transportCompany);
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return retList;
+    }
+;
 }

@@ -2,16 +2,27 @@ package domain;
 
 public class TransportCompany {
 
-	private int id;
+	private String id;
 
-	private char name;
+	private String name;
 
-	private String[] typeTransport;
+    public String getId() {
+        return id;
+    }
 
-	private Route route;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public Route[] getRoute() {
-		return null;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+        
+        
+
 
 }
