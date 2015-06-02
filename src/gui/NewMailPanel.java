@@ -8,7 +8,7 @@ package gui;
 
 /**
  *
- * @author T
+ * @author Tony Work
  */
 public class NewMailPanel extends javax.swing.JPanel {
 

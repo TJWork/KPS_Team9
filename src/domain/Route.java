@@ -82,9 +82,6 @@ public class Route {
 
     private double costPerCC;
 
-    public Mail[] getMail() {
-        return null;
-    }
 
 	
 

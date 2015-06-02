@@ -9,31 +9,15 @@ package domain;
  *
  * @author Kane
  */
-public class UpdateCustomerPriceEvent {
+public class UpdateCustomerPriceEvent extends Event{
 
 private String event;
-private String event_time;
 private String priority_id;
 private String origin;
 private String destination;
 private String company;
 private String customer_cost_pergram;
 
-    public String getEvent() {
-        return event;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
-
-    public String getEvent_time() {
-        return event_time;
-    }
-
-    public void setEvent_time(String event_time) {
-        this.event_time = event_time;
-    }
 
     public String getPriority_id() {
         return priority_id;

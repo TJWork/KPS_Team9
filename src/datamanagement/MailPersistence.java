@@ -1,5 +1,5 @@
 package datamanagement;
-import domain.Mail;
+
 
 public class MailPersistence {
 
@@ -8,9 +8,6 @@ public class MailPersistence {
 
     }
 
-    public Mail getMail() {
-            return null;
-    }
 
     public void delMail() {
 

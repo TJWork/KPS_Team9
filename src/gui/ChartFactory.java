@@ -30,6 +30,7 @@ public class ChartFactory {
         
         for (int i = 0; i != values.length; ++i){
             Line line = Plots.newLine(Data.newData(values[i]), ChartFactory.pieColours[i], plotLabells[i]);
+           
             line.setLineStyle(LineStyle.newLineStyle(3, 1, 0));
             line.addShapeMarkers(Shape.DIAMOND, ChartFactory.pieColours[i], 12);
             line.addShapeMarkers(Shape.DIAMOND, Color.WHITE, 10);

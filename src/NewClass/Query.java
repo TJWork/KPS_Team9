@@ -23,7 +23,8 @@ public class Query {
     private final static String URI = "xmldb:exist://localhost:8080/exist/xmlrpc";
     private final static String driver = "org.exist.xmldb.DatabaseImpl";
 
-    public List bb(String query) throws Exception {
+    public List<String[]> bb(String query) throws Exception {
+        System.out.println("reading query: " + query);
         Class cl = Class.forName(driver);
         String[] Value2 = null;
         Database database = (Database) cl.newInstance();
@@ -33,42 +34,55 @@ public class Query {
         service.setProperty("indent", "yes");
         ResourceSet result = service.query(mail_event);
         ResourceIterator i = result.getIterator();
-        List list = new ArrayList();
+        List<String[]> list = new ArrayList<String[]>();
         while (i.hasMoreResources()) {
             Resource r = i.nextResource();
             String Value = (String) r.getContent();
             Value2 = Value.substring(3, (Value.length() - 4)).split(",");
             list.add(Value2);
+            System.out.println("Value2: " + Value2);
         }
         return list;
     }
 
-    public List Miallist(List list) {
-        String[] asd = (String[]) list.get(0);
-        List list2 = new ArrayList();
-        for (int h = 0; h <= list.size(); h++) {
+    public ArrayList<MailEvent> maillist() {
+        System.out.println("reading mail events");
+        ArrayList<MailEvent> retList = new ArrayList<MailEvent>();
+        
+        try{
+         List<String[]> list = bb(Query.mail_event);
+        System.out.println("building mail events: size o' list: " + list.size());
+        for (int h = 0; h < list.size(); h++) {
+            String[] asd = list.get(h);
+           
             MailEvent mailEvent = new MailEvent();
 
             mailEvent.setEvent(asd[0]);
             mailEvent.setEvent_time(asd[1]);
             mailEvent.setWeight(asd[2]);
             mailEvent.setVolume(asd[3]);
-            mailEvent.setTime(asd[4]);
+            mailEvent.setDuration(asd[4]);
             mailEvent.setPriority_id(asd[5]);
             mailEvent.setOrigin(asd[6]);
             mailEvent.setDestination(asd[7]);
             mailEvent.setPrice(asd[8]);
             mailEvent.setCost(asd[9]);
             //allocate
-            list2.add(mailEvent);
+            retList.add(mailEvent);
         }
-        return list2;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return retList;
     }
 
     ;
     
     
-    public List Discontinuelist(List list) {
+    public List Discontinuelist() {
+        List list = new ArrayList();
+        try{
+         list = bb(Query.discontinue_event);
         String[] asd = (String[]) list.get(0);
         List list2 = new ArrayList();
         for (int h = 0; h <= list.size(); h++) {
@@ -82,7 +96,10 @@ public class Query {
             discontinueEvent.setCompany(asd[5]);
             list2.add(discontinueEvent);
         }
-        return list2;
+        } catch(Exception e){
+            
+        }
+        return list;
     }
 
     ;

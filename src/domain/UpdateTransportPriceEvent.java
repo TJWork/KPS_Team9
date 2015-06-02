@@ -9,7 +9,7 @@ package domain;
  *
  * @author Kane
  */
-public class UpdateTransportPriceEvent {
+public class UpdateTransportPriceEvent extends Event{
     private String event;
     private String event_time;
     private String priority_id;
@@ -27,13 +27,6 @@ public class UpdateTransportPriceEvent {
         this.event = event;
     }
 
-    public String getEvent_time() {
-        return event_time;
-    }
-
-    public void setEvent_time(String event_time) {
-        this.event_time = event_time;
-    }
 
     public String getPriority_id() {
         return priority_id;

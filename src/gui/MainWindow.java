@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author T
+ * @author Tony Work
  */
 public class MainWindow extends javax.swing.JFrame {
 

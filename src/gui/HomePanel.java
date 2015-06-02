@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author T
+ * @author Tony Work
  */
 public class HomePanel extends javax.swing.JPanel{
     private Employee loggedInAs;

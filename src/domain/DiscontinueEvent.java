@@ -9,7 +9,7 @@ package domain;
  *
  * @author Kane
  */
-public class DiscontinueEvent {
+public class DiscontinueEvent extends Event{
 private String event;
 private String event_time;
 private String priority_id;
@@ -26,13 +26,6 @@ private String company;
         this.event = event;
     }
 
-    public String getEvent_time() {
-        return event_time;
-    }
-
-    public void setEvent_time(String event_time) {
-        this.event_time = event_time;
-    }
 
     public String getPriority_id() {
         return priority_id;
