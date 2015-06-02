@@ -27,6 +27,7 @@ public class UpdateTransportPriceEvent extends Event{
     public void setDuration(String duration) {
         this.duration = duration;
     }
+    
 
     public String getEvent() {
         return event;
