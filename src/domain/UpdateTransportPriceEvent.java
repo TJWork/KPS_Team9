@@ -11,7 +11,6 @@ package domain;
  */
 public class UpdateTransportPriceEvent extends Event{
     private String event;
-    private String event_time;
     private String priority_id;
     private String origin;
     private String destination;
