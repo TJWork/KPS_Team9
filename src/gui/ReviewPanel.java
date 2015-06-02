@@ -6,6 +6,7 @@
 
 package gui;
 
+import NewClass.M;
 import NewClass.Query;
 import com.googlecode.charts4j.*;
 import domain.UpdateCustomerPriceEvent;
@@ -302,93 +303,24 @@ public class ReviewPanel extends javax.swing.JPanel {
     private void buildMailEventData(){
         this.mailEvents = new ArrayList<MailEvent>();
         Query q = new Query();
-        System.out.println("review panel");
         this.mailEvents = q.maillist();
         
-        for (int i = 0; i != this.mailEvents.size(); ++i){
-            System.out.println(this.mailEvents.get(i).toString());
-        }
-        /* Random r = new Random(300);
-        double rangeMin = 0;
-        double rangeMax = 600;
         
-        GregorianCalendar minDate = new GregorianCalendar(2015, 0, 1);
-        GregorianCalendar maxDate = new GregorianCalendar(2015, 4, 25);
         
-        //minDate.
-        for (int i = 0; i != 10; ++i){
-            MailEvent m = new MailEvent();
-            m.setCost(rangeMin + (rangeMax - rangeMin) * r.nextDouble());
-            m.setPrice(rangeMin + (rangeMax - rangeMin) * r.nextDouble());
-            m.setTime(minDate.getTimeInMillis() + (long)((maxDate.getTimeInMillis() - minDate.getTimeInMillis()) * r.nextDouble()));
-            mailEvents.add(m);
-            events.add(m);
-            GregorianCalendar gc = new GregorianCalendar();
-            gc.setTimeInMillis(m.getTime());
-            System.out.println("##### MAIL #####");
-            System.out.println("Cost: " + m.getCost());
-            System.out.println("Price: " + m.getPrice());
-            System.out.println("Date: " + gc.get(Calendar.YEAR) + " " + gc.get(Calendar.MONTH));
-        }
-        
-        */
     }
     
     private void buildAllEventData(){
         this.events = new ArrayList<Event>();
         
         this.buildMailEventData();
-        this.buildShallowRoutes();
-        this.buildShallowDiscontinues();
-        this.buildShallowCustomerPriceChanges();
+        calculateTotals();
         if (this.revenueChart == null)
             createIncomeExpenseChart(); 
-        if (this.eventsChart == null)
-            createEventsGraph();
+        /*if (this.eventsChart == null)
+            createEventsGraph();*/
+ 
     }
     
-    private void buildShallowRoutes(){
-        Random r = new Random(500);
-        GregorianCalendar minDate = new GregorianCalendar(2015, 0, 1);
-        GregorianCalendar maxDate = new GregorianCalendar(2015, 4, 25);
-        
-        for (int i = 0; i != 13; ++i){
-            Route route = new Route();
-            long time = minDate.getTimeInMillis() + (long)((maxDate.getTimeInMillis() - 
-                    minDate.getTimeInMillis()) * r.nextDouble());
-            //route.set(time);
-            //events.add(route);
-        }
-    }
-    
-    private void buildShallowDiscontinues(){/*
-        Random r = new Random(700);
-        GregorianCalendar minDate = new GregorianCalendar(2015, 0, 1);
-        GregorianCalendar maxDate = new GregorianCalendar(2015, 4, 25);
-        
-        for (int i = 0; i != 3; ++i){
-            DiscontinuedRouteEvent dre = new DiscontinuedRouteEvent();
-            long time = minDate.getTimeInMillis() + (long)((maxDate.getTimeInMillis() - 
-                    minDate.getTimeInMillis()) * r.nextDouble());
-            dre.setTime(time);
-            events.add(dre);
-        }*/
-    }
-    
-    private void buildShallowCustomerPriceChanges(){/*
-        Random r = new Random(800);
-        GregorianCalendar minDate = new GregorianCalendar(2015, 0, 1);
-        GregorianCalendar maxDate = new GregorianCalendar(2015, 4, 25);
-        
-        for (int i = 0; i != 4; ++i){
-            
-            CustomerPriceChangeEvent cpce = new CustomerPriceChangeEvent();
-            long time = minDate.getTimeInMillis() + (long)((maxDate.getTimeInMillis() - 
-                    minDate.getTimeInMillis()) * r.nextDouble());
-            cpce.setTime(time);
-            events.add(cpce);
-        }*/
-    }
     
     private void countEvents(){
         int total = 0;
@@ -396,15 +328,15 @@ public class ReviewPanel extends javax.swing.JPanel {
         int route = 0;
         int dcr = 0;
         int pc = 0;
-        /*
+        
         for (int i = 0; i != this.events.size(); ++i){
-            if (this.events.get(i) instanceof Mail) ++m;
-            if (this.events.get(i) instanceof Route) ++route;
-            if (this.events.get(i) instanceof DiscontinuedRouteEvent) ++dcr;
-            if (this.events.get(i) instanceof CustomerPriceChangeEvent) ++pc;
+            if (this.events.get(i) instanceof MailEvent) ++m;
+            /*if (this.events.get(i) instanceof Route) ++route;
+            if (this.events.get(i) instanceof DiscontinuedRoute) ++dcr;
+            if (this.events.get(i) instanceof CustomerPriceChangeEvent) ++pc;*/
         }
         System.out.println("Mail: " + m + "\tRoute: " + route + "\nDiscontinedRouteEvent: " 
-                + dcr + "\tCustomerPriceChangeEvent: " + pc + "\nTotal: " + total);*/
+                + dcr + "\tCustomerPriceChangeEvent: " + pc + "\nTotal: " + total);
     }
     
     
@@ -412,13 +344,15 @@ public class ReviewPanel extends javax.swing.JPanel {
         for (int i = 0; i != this.mailEvents.size(); ++i){
             MailEvent m = this.mailEvents.get(i);
             this.totalIncome = m.getPrice();
+            jLabel22.setText("$" + this.totalIncome);
             this.totalExpense = m.getCost();
+            jLabel23.setText("$" + this.totalExpense);
+            jLabel24.setText("$" + (this.totalIncome - this.totalExpense));
         }
-        System.out.println("total income: " + this.totalIncome + "\ttotal expense: " + this.totalExpense);
-        System.out.println("total revenue: " + (this.totalIncome - this.totalExpense));
         
     }
 
+    
     private void setGraphLayout(GChart graph, JLabel jLabel){
         double width = jLabel.getWidth();
         double height = jLabel.getHeight();
@@ -457,6 +391,8 @@ public class ReviewPanel extends javax.swing.JPanel {
             System.out.println(lines[i]);
         }*/
     }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form. WARNING:
      * Do NOT modify this code. The content of this method is always regenerated by the
@@ -477,6 +413,11 @@ public class ReviewPanel extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton8 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -487,6 +428,9 @@ public class ReviewPanel extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -516,6 +460,53 @@ public class ReviewPanel extends javax.swing.JPanel {
 
         jLabel14.setText("From: Eketahuna");
 
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel25.setText("Critical Routes");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Origin", "Destination", "Carrier", "Cost"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jButton8.setText("Discontinue");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addGap(0, 220, Short.MAX_VALUE)
+                        .addComponent(jButton8)))
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel25)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton8)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -540,7 +531,8 @@ public class ReviewPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13))
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -564,7 +556,8 @@ public class ReviewPanel extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel14))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
+            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -587,6 +580,12 @@ public class ReviewPanel extends javax.swing.JPanel {
 
         jLabel21.setText("Profit:");
 
+        jLabel22.setText("jLabel22");
+
+        jLabel23.setText("jLabel23");
+
+        jLabel24.setText("jLabel24");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -604,10 +603,16 @@ public class ReviewPanel extends javax.swing.JPanel {
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                                 .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel19)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jLabel23)
+                                    .addComponent(jLabel24))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -619,12 +624,18 @@ public class ReviewPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel19)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel22))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel20)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel23))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel16)
@@ -658,14 +669,14 @@ public class ReviewPanel extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -680,14 +691,14 @@ public class ReviewPanel extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -699,17 +710,17 @@ public class ReviewPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jSplitPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSplitPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -728,6 +739,7 @@ public class ReviewPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -742,6 +754,10 @@ public class ReviewPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -753,6 +769,9 @@ public class ReviewPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

@@ -80,6 +80,9 @@ public class MailEvent extends Event{
         this.time = time;
     }
     
+    public int getDuration(){
+        return Integer.parseInt(this.time);
+    }
     
     @Override
     public String toString(){

@@ -76,7 +76,6 @@ public class Query {
         return retList;
     }
 
-    ;
     
     
     public List Discontinuelist() {

@@ -31,7 +31,6 @@ public class Event {
     }
 
     public void setEvent_time(String time){
-        System.out.println("time: "  + time);
         String[] bits = time.split("-");
         int year = Integer.parseInt(bits[0]);
         int month = Integer.parseInt(bits[1]) - 1;
