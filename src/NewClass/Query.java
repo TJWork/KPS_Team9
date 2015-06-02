@@ -37,7 +37,7 @@ public class Query {
         Collection col = DatabaseManager.getCollection(URI + "/db/kps");
         XQueryService service = (XQueryService) col.getService("XQueryService", "1.0");
         service.setProperty("indent", "yes");
-        ResourceSet result = service.query(mail_event);
+        ResourceSet result = service.query(query);
         ResourceIterator i = result.getIterator();
         List<String[]> list = new ArrayList<String[]>();
         while (i.hasMoreResources()) {
