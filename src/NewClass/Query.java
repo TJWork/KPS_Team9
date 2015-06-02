@@ -19,7 +19,7 @@ import org.xmldb.api.modules.XQueryService;
 public class Query {
 
     private final static String update_customer_price_event = "for $c in fn:doc('Kps_manager.xml')/Business_events/ChangeCustomerPrice_events/price[event <= 100]\n" + "return\n" + "<a>{$c/event/text()},{$c/event_time/text()},{$c/priority_id/text()},{$c/origin/text()},{$c/destination/text()},{$c/company/text()},{$c/customer_cost_pergram/text()},{$c/customer_cost_percc/text()}</a>";
-    private final static String update_transport_price_event = "for $c in fn:doc('Kps_manager.xml')/Business_events/ChangeTransportPrice/price[event <= 100]\n" + "return\n" + "<a>{$c/event/text()},{$c/event_time/text()},{$c/priority_id/text()},{$c/origin/text()},{$c/destination/text()},{$c/company/text()},{$c/company_cost_pergram/text()},{$c/company_cost_percc/text()}</a>";
+    private final static String update_transport_price_event = "for $c in fn:doc('Kps_manager.xml')/Business_events/ChangeTransportPrice/price[event <= 100]\n" + "return\n" + "<a>{$c/event/text()},{$c/event_time/text()},{$c/priority_id/text()},{$c/origin/text()},{$c/destination/text()},{$c/company/text()},{$c/company_cost_pergram/text()},{$c/company_cost_percc/text()},{$c/duration/text()}</a>";
     private final static String discontinue_event = "for $c in fn:doc('Kps_manager.xml')/Business_events/DiscountinueRoute_events/dicontinue[event <= 100]\n" + "return\n" + "<a>{$c/event/text()},{$c/event_time/text()},{$c/priority_id/text()},{$c/origin/text()},{$c/destination/text()},{$c/company/text()},{$c/origin/text()},{$c/destination/text()}</a>";
     private final static String mail_event = "for $c in fn:doc('Kps_manager.xml')/Business_events/mail_events/mail[event <= 100]" + "return" + "<a>{$c/event/text()},{$c/event_time/text()},{$c/weight/text()},{$c/volume/text()},{$c/time/text()},{$c/priority_id/text()},{$c/origin/text()},{$c/destination/text()},{$c/price/text()},{$c/cost/text()}</a>";
     private final static String findcity = "for $c in fn:doc('Kps_manager.xml')/Business_events/citys/city\n" + "return\n" + "<a>{$c/@id/string()},{$c/name/text()},{$c/country_id/text()}</a>";
@@ -116,6 +116,7 @@ public class Query {
                 ucpe.setCompany(asd[5]);
                 ucpe.setCompany_cost_pergram(asd[6]);
                 ucpe.setCompany_cost_percc(asd[7]);
+                ucpe.setDuration(asd[8]);
                 retList.add(ucpe);
             }
         } catch (Exception e) {
