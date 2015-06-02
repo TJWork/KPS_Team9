@@ -331,9 +331,9 @@ public class ReviewPanel extends javax.swing.JPanel {
         
         for (int i = 0; i != this.events.size(); ++i){
             if (this.events.get(i) instanceof MailEvent) ++m;
-            /*if (this.events.get(i) instanceof Route) ++route;
-            if (this.events.get(i) instanceof DiscontinuedRoute) ++dcr;
-            if (this.events.get(i) instanceof CustomerPriceChangeEvent) ++pc;*/
+            if (this.events.get(i) instanceof UpdateTransportPriceEvent) ++route;
+            if (this.events.get(i) instanceof DiscontinueEvent) ++dcr;
+            if (this.events.get(i) instanceof UpdateCustomerPriceEvent) ++pc;
         }
         System.out.println("Mail: " + m + "\tRoute: " + route + "\nDiscontinedRouteEvent: " 
                 + dcr + "\tCustomerPriceChangeEvent: " + pc + "\nTotal: " + total);

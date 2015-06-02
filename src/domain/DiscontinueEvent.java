@@ -18,14 +18,6 @@ private String destination;
 private String company;
 
 
-    public String getEvent() {
-        return event;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
-
 
     public String getPriority_id() {
         return priority_id;
