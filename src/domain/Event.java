@@ -16,6 +16,7 @@ public class Event {
     
     private String event;
     private String event_time;
+    private String timeAsDate;
     private String eventType;
 
     public String getEvent() {
@@ -30,7 +31,12 @@ public class Event {
         return Long.parseLong(event_time);
     }
 
+    public String getTimeAsDate(){
+        return this.timeAsDate;
+    }
+    
     public void setEvent_time(String time){
+        this.timeAsDate = time;
         String[] bits = time.split("-");
         int year = Integer.parseInt(bits[0]);
         int month = Integer.parseInt(bits[1]) - 1;
