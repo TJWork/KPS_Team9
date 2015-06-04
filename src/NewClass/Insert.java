@@ -2,6 +2,7 @@ package NewClass;
 
 import domain.DiscontinueEvent;
 import domain.MailEvent;
+import domain.TransportCompany;
 import domain.UpdateCustomerPriceEvent;
 import domain.UpdateTransportPriceEvent;
 import java.util.ArrayList;
@@ -52,21 +53,22 @@ public class Insert {
         this.bb(xquery);
     }    
     
+    public void updateCarrier(TransportCompany Tc) throws Exception{    
+        String xquery= "update insert\n<company id='"+Tc.getId()+"'>\n<name>"+Tc.getName()+"</name>\n</company>\ninto\ndoc(\"Kps_manager.xml\")/Business_events/companies";            
+        this.bb(xquery);
+    }    
     
+    public void deleteCarrier(TransportCompany Tc) throws Exception{
+        String xquery="update delete fn:doc(\"Kps_manager.xml\")/Business_events/companies/company[@id='"+Tc.getId()+"' and name='"+Tc.getName()+"']";
+        this.bb(xquery);
+    }
     
     public static void main(String[] args) throws Exception {
         Insert i = new Insert();
-        UpdateTransportPriceEvent d= new UpdateTransportPriceEvent();
-        d.setEvent("3");
-        d.setEvent_time("2015-05-12");
-        d.setPriority_id("air");
-        d.setCompany("USI");
-        d.setOrigin("aa");
-        d.setDestination("bb");
-        d.setCompany_cost_percc("1");
-        d.setCompany_cost_pergram("2");
-        d.setDuration("1");
-        i.updateTransportPrice(d);
+        TransportCompany d= new TransportCompany();
+        d.setId("company0001");
+        d.setName("Air NewZealand");
+        i.deleteCarrier(d);
         
         
         
