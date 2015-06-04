@@ -399,4 +399,18 @@
             <type>road</type>
         </priority>
     </priorities>
+    
+    <users>
+        <user id="1">
+            <user_name>team9</user_name>
+            <user_password>111111</user_password>
+            <user_type>1</user_type>
+        </user>
+        <user id="2">
+            <user_name>clerk</user_name>
+            <user_password>111111</user_password>
+            <user_type>2</user_type>
+        </user>
+    </users>
 </Business_events>
+
